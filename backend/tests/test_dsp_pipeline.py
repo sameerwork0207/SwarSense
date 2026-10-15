@@ -265,6 +265,28 @@ class TestPitch:
             assert isinstance(result.dominant_note, str)
             assert len(result.dominant_note) >= 2  # e.g. "A4"
 
+    def test_silent_audio_does_not_raise(self):
+        """
+        Regression test: fully silent audio produces zero voiced frames, so
+        mean_f0/std_f0/min_f0/max_f0 are all None. A completion-logging
+        f-string previously used an unguarded `:.1f` format spec on
+        mean_f0, raising 'unsupported format string passed to
+        NoneType.__format__' and causing the whole pitch module to fail
+        (and the job to be marked 'partial') even though the computation
+        itself was otherwise valid.
+        """
+        import numpy as np
+        from app.audio.pitch import estimate_pitch
+
+        sr = 22050
+        silent_samples = np.zeros(sr * 3, dtype=np.float32)  # 3s of digital silence
+
+        result = estimate_pitch(silent_samples, sr)
+
+        assert result.voiced_ratio == 0.0
+        assert result.mean_f0_hz is None
+        assert result.dominant_note is None
+
 
 # ─── Feature Extraction Tests ─────────────────────────────────────────────────
 

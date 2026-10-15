@@ -250,8 +250,19 @@ async def get_analysis_result(job_id: str):
             },
         )
 
+    if status == JobStatus.FAILED:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "analysis_failed",
+                "message": job.get("message") or "Analysis failed before producing a result.",
+            },
+        )
+
     result = job.get("result")
     if result is None:
+        # Should not happen for completed/partial jobs — the pipeline always
+        # assembles a result before marking a job completed or partial.
         raise HTTPException(
             status_code=500,
             detail={

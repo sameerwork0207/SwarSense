@@ -30,6 +30,19 @@ services:
       - MAX_AUDIO_DURATION_SECONDS=600
       - TARGET_SAMPLE_RATE=22050
       - SEGMENT_LENGTH_SECONDS=30
+      # ── Song Intelligence (Phase 2, optional) ─────────────────────────────
+      # Pulled from the host environment / a local .env file next to this
+      # compose file — never hardcode real credentials here.
+      - SONG_INTELLIGENCE_ENABLED=${SONG_INTELLIGENCE_ENABLED:-true}
+      - SONG_IDENTIFICATION_PROVIDER=${SONG_IDENTIFICATION_PROVIDER:-acoustid}
+      - ACOUSTID_API_KEY=${ACOUSTID_API_KEY:-}
+      - ACRCLOUD_HOST=${ACRCLOUD_HOST:-}
+      - ACRCLOUD_ACCESS_KEY=${ACRCLOUD_ACCESS_KEY:-}
+      - ACRCLOUD_ACCESS_SECRET=${ACRCLOUD_ACCESS_SECRET:-}
+      - AUDD_API_TOKEN=${AUDD_API_TOKEN:-}
+      - IDENTIFICATION_CONFIDENCE_THRESHOLD=${IDENTIFICATION_CONFIDENCE_THRESHOLD:-0.75}
+      - IDENTIFICATION_DOMINANCE_MARGIN=${IDENTIFICATION_DOMINANCE_MARGIN:-0.15}
+      - SONG_INTELLIGENCE_TIMEOUT_SECONDS=${SONG_INTELLIGENCE_TIMEOUT_SECONDS:-15}
     volumes:
       # Persistent uploads — not baked into the image
       - ./data/uploads:/app/data/uploads

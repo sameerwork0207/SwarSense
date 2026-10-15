@@ -102,6 +102,17 @@ class TestAnalyzeEndpoint:
             assert isinstance(job_id, str)
             assert len(job_id) > 0
 
+    def test_analyze_rejects_file_over_50mb(self):
+        """A file larger than the 50 MB limit must be rejected with 413."""
+        oversized = b"\x00" * (50 * 1024 * 1024 + 1)
+        response = client.post(
+            "/api/analyze",
+            files={"file": ("huge.wav", oversized, "audio/wav")},
+        )
+        assert response.status_code == 413
+        detail = response.json()["detail"]
+        assert detail["error"] == "file_too_large"
+
 
 # ─── Status Endpoint ───────────────────────────────────────────────────────────
 
@@ -139,6 +150,31 @@ class TestResultEndpoint:
         """Requesting result of a non-existent job must return 404."""
         response = client.get("/api/result/nonexistent-job-id-12345")
         assert response.status_code == 404
+
+    def test_result_for_failed_job_returns_4xx_not_500(self):
+        """
+        Regression test: a job that fails during audio loading (e.g. corrupt
+        bytes with a .wav extension that passes the lightweight upload
+        validator but can't actually be decoded) must surface as a client
+        error with a clear message, not a 500 'result_missing'.
+        """
+        corrupt_bytes = b"not actually audio data, just random-looking bytes 1234567890"
+        analyze_response = client.post(
+            "/api/analyze",
+            files={"file": ("corrupt.wav", corrupt_bytes, "audio/wav")},
+        )
+        if analyze_response.status_code != 202:
+            pytest.skip("Upload validator rejected the corrupt file before a job was created.")
+
+        job_id = analyze_response.json()["job_id"]
+        status_response = client.get(f"/api/status/{job_id}")
+        assert status_response.json()["status"] == "failed"
+
+        result_response = client.get(f"/api/result/{job_id}")
+        assert result_response.status_code == 422
+        detail = result_response.json()["detail"]
+        assert detail["error"] == "analysis_failed"
+        assert "message" in detail
 
     def test_docs_endpoint_available(self):
         """Swagger docs must be accessible at /api/docs."""

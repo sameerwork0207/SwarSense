@@ -174,9 +174,10 @@ def estimate_pitch(samples: np.ndarray, sample_rate: int) -> PitchResult:
     times_list = [round(float(t), 4) for t in times_out]
     voiced_list = [bool(v) for v in voiced_out]
 
+    mean_f0_str = f"{mean_f0:.1f}Hz" if mean_f0 is not None else "N/A (no voiced frames)"
     logger.info(
         f"PYIN complete: voiced_ratio={voiced_ratio:.2%}, "
-        f"mean_f0={mean_f0:.1f}Hz, dominant_note={dominant_note}"
+        f"mean_f0={mean_f0_str}, dominant_note={dominant_note}"
     )
 
     return PitchResult(
