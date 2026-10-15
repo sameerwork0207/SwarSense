@@ -7,12 +7,13 @@
 
 ## Overview
 
-SwarSense is an end-to-end AI system that accepts an uploaded audio file (`.wav` or `.mp3`) and automatically analyses its musical characteristics.
+SwarSense accepts an uploaded audio file (`.wav` or `.mp3`) and automatically analyses its musical characteristics. It is being built in phases — see **Development Phases** below for what is actually implemented today versus planned.
 
-The system combines:
-- **Deterministic DSP** (BPM, spectrograms, MFCC, pitch) via Librosa
-- **Pretrained AI models** (source separation, instrument detection)
-- **Trained ML/DL models** (Indian raga classification — the primary research contribution)
+The target architecture combines:
+- **Deterministic DSP** (BPM, spectrograms, MFCC, pitch) via Librosa — ✅ implemented (Phase 1)
+- Optional **external song identification + metadata enrichment** (AcoustID/ACRCloud/AudD + MusicBrainz) — ✅ implemented (Phase 2); this is external reference data, not a SwarSense prediction
+- **Pretrained AI models** (source separation, instrument detection) — not yet implemented (Phase 3)
+- **Trained ML/DL models** (Indian raga classification — the primary research contribution) — not yet implemented; no labelled dataset or trained model exists yet (Phase 4)
 
 ---
 
@@ -77,6 +78,7 @@ cd backend
 python -m venv .venv
 .venv\Scripts\activate          # Windows
 pip install -r requirements.txt
+copy .env.example .env          # optional — only needed to enable Song Intelligence
 uvicorn app.main:app --reload --port 8000
 ```
 
@@ -94,13 +96,26 @@ npm run dev
 | Phase | Status | Description |
 |---|---|---|
 | 0 — Infrastructure | ✅ Complete | Project skeleton, Docker, FastAPI, Next.js |
-| 1 — DSP Pipeline | ⏳ Pending | Librosa feature extraction |
-| 2 — Visualizations | ⏳ Pending | Waveform, spectrogram, chromagram, pitch |
-| 3 — Pretrained Models | ⏳ Pending | Demucs + YAMNet integration |
-| 4 — Raga Classifier | ⏳ Pending | Dataset prep + CNN training |
-| 5 — Explainability | ⏳ Pending | Grad-CAM + SHAP |
-| 6 — Integration | ⏳ Pending | Async queue + caching + polish |
-| 7 — Documentation | ⏳ Pending | Testing + final demo |
+| 1 — DSP Pipeline | ✅ Complete | Audio validation/preprocessing, loudness, BPM/beat tracking, PYIN pitch, MFCC, chroma, spectral features, HPSS, heuristic tonic estimation, 5 visualizations, results dashboard |
+| 2 — Song Intelligence | ✅ Complete (optional, external) | AcoustID (default)/ACRCloud/AudD identification + MusicBrainz enrichment. Requires a free/paid provider API key — reports `unavailable` otherwise. Never affects DSP results. See below. |
+| 3 — Pretrained Models | ⏳ Not started | Demucs source separation + YAMNet instrument detection (schema stubs exist; no model integration yet) |
+| 4 — Raga Classifier | ⏳ Not started | No labelled dataset and no trained model exist yet. `ml/` is an empty skeleton. `raga_prediction` is a documented placeholder — never fabricated |
+| 5 — Explainability | ⏳ Not started | Grad-CAM + SHAP (depends on Phase 4) |
+| 6 — Integration | ⏳ Not started | Async queue + caching + polish |
+| 7 — Documentation | 🔄 Ongoing | This README + `docs/` |
+
+Backend test suite: 116 tests passing (`backend/tests/`), covering DSP pipeline, API integration, and Song Intelligence (with mocked providers — no live credentials required for tests).
+
+### Song Intelligence setup (optional)
+
+Song Intelligence is **external metadata only** — it identifies which recording was uploaded (via acoustic fingerprinting) and enriches it with MusicBrainz data. It is never a SwarSense-generated prediction, and a raga name surfaced via MusicBrainz tags is always labeled as an external reference, never as SwarSense's own raga classification.
+
+Without any provider credentials configured, identification correctly reports `unavailable` and has no effect on the DSP analysis. To enable it, copy `backend/.env.example` to `backend/.env` and set at least one of:
+- `ACOUSTID_API_KEY` (default provider; also requires `fpcalc` from [Chromaprint](https://acoustid.org/chromaprint) on PATH)
+- `ACRCLOUD_HOST` + `ACRCLOUD_ACCESS_KEY` + `ACRCLOUD_ACCESS_SECRET`
+- `AUDD_API_TOKEN`
+
+Set `SONG_IDENTIFICATION_PROVIDER` to pick which one is used (`acoustid` | `acrcloud` | `audd` | `auto`), or `SONG_INTELLIGENCE_ENABLED=false` to disable the stage entirely.
 
 ---
 
