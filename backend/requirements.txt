@@ -1,0 +1,55 @@
+# ─── SwarSense Backend — Production / Inference Requirements ──────────────────
+# Python 3.11 required
+# Training-only dependencies are in requirements-ml.txt
+# Do not add large training libraries here.
+
+# ─── Web Framework ────────────────────────────────────────────────────────────
+fastapi==0.111.1
+uvicorn[standard]==0.30.3
+python-multipart==0.0.9       # Required for file uploads in FastAPI
+
+# ─── Data Validation ──────────────────────────────────────────────────────────
+pydantic==2.8.2
+pydantic-settings==2.3.4
+
+# ─── Audio Processing — DSP ───────────────────────────────────────────────────
+librosa==0.10.2.post1
+soundfile==0.12.1
+numpy==1.26.4
+scipy==1.13.1
+
+# ─── Audio Loudness ───────────────────────────────────────────────────────────
+pyloudnorm==0.1.1
+
+# ─── Visualization (for backend-generated images) ─────────────────────────────
+matplotlib==3.9.2
+
+# ─── ML Inference (lightweight — for loading trained models) ──────────────────
+scikit-learn==1.5.1
+torch==2.3.1+cpu                # CPU-only build; change to GPU build if needed
+torchvision==0.18.1+cpu
+
+# ─── File Validation ──────────────────────────────────────────────────────────
+python-magic-bin==0.4.14        # Windows-compatible binary for libmagic
+
+# ─── Configuration / Environment ──────────────────────────────────────────────
+python-dotenv==1.0.1
+
+# ─── Logging ──────────────────────────────────────────────────────────────────
+loguru==0.7.2
+
+# ─── HTTP / Utilities ─────────────────────────────────────────────────────────
+httpx==0.27.0                   # Async HTTP client (for internal service calls)
+aiofiles==23.2.1                # Async file I/O
+
+# ─── Song Intelligence (Phase 2, optional) ────────────────────────────────────
+# Only required if SONG_IDENTIFICATION_PROVIDER=acoustid (the default).
+# Without it (or without ACOUSTID_API_KEY set), identification falls back to
+# NullProvider and is reported as unavailable — the rest of the app is unaffected.
+# Also requires fpcalc (Chromaprint CLI) on PATH: https://acoustid.org/chromaprint
+pyacoustid==1.3.0
+
+# ─── Testing (kept here for CI; not included in Docker production image) ──────
+pytest==8.3.2
+pytest-asyncio==0.23.8
+httpx==0.27.0                   # Already listed above — required for TestClient

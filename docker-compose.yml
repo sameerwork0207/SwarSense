@@ -1,0 +1,69 @@
+# ─── SwarSense — Docker Compose ───────────────────────────────────────────────
+# Orchestrates: backend (FastAPI) + frontend (Next.js)
+#
+# Usage:
+#   docker compose up --build          # Build and start all services
+#   docker compose up -d               # Run in background
+#   docker compose logs -f backend     # Stream backend logs
+#   docker compose down                # Stop all services
+#
+# Services:
+#   backend   → http://localhost:8000
+#   frontend  → http://localhost:3000
+#   API docs  → http://localhost:8000/api/docs
+
+services:
+  # ─── FastAPI Backend ──────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: swarsense-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - LOG_LEVEL=INFO
+      - FRONTEND_URL=http://localhost:3000
+      - MAX_UPLOAD_SIZE_MB=50
+      - MAX_AUDIO_DURATION_SECONDS=600
+      - TARGET_SAMPLE_RATE=22050
+      - SEGMENT_LENGTH_SECONDS=30
+    volumes:
+      # Persistent uploads — not baked into the image
+      - ./data/uploads:/app/data/uploads
+      # Persistent model checkpoints — not baked into the image
+      - ./models:/app/models
+      # Static raga knowledge base
+      - ./data/ragas.json:/app/data/ragas.json:ro
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+    restart: unless-stopped
+
+  # ─── Next.js Frontend ─────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: swarsense-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      # Inside Docker network, frontend server-side requests go to backend service
+      - API_URL=http://backend:8000
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  # Named volumes for persistence across container restarts
+  uploads_data:
+  model_data:

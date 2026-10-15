@@ -1,0 +1,172 @@
+{
+  "_metadata": {
+    "version": "1.0.0",
+    "description": "Static raga knowledge base for SwarSense.",
+    "source": "Compiled from standard Hindustani classical music references.",
+    "important_notice": "This is reference/encyclopedic data. It is NOT produced by the ML model. Always display with label 'Reference Information' separate from model predictions.",
+    "notation": {
+      "S": "Sa (tonic, not fixed to a pitch)",
+      "r": "komal Re (flattened 2nd)",
+      "R": "shuddha Re (natural 2nd)",
+      "g": "komal Ga (flattened 3rd)",
+      "G": "shuddha Ga (natural 3rd)",
+      "M": "shuddha Ma (natural 4th)",
+      "m": "tivra Ma (sharpened 4th)",
+      "P": "Pa (5th, never altered)",
+      "d": "komal Dha (flattened 6th)",
+      "D": "shuddha Dha (natural 6th)",
+      "n": "komal Ni (flattened 7th)",
+      "N": "shuddha Ni (natural 7th)",
+      "S'": "upper Sa (octave)"
+    },
+    "fields_explained": {
+      "name": "Raga name",
+      "thaat": "Parent scale classification (Bhatkhande system)",
+      "aroha": "Ascending scale pattern",
+      "avroha": "Descending scale pattern",
+      "vadi": "Most prominent/emphasized note",
+      "samvadi": "Second most prominent note (typically a 4th or 5th from vadi)",
+      "time_of_day": "Traditional performance time (not a strict rule in modern practice)",
+      "characteristic_phrases": "Characteristic note movements that help identify the raga",
+      "description": "Brief musicological description"
+    }
+  },
+  "ragas": [
+    {
+      "id": "yaman",
+      "name": "Yaman",
+      "thaat": "Kalyan",
+      "aroha": "N R G m P D N S'",
+      "avroha": "S' N D P m G R S",
+      "vadi": "G (Ga)",
+      "samvadi": "N (Ni)",
+      "time_of_day": "First quarter of the night (approx. 6 PM – 9 PM)",
+      "characteristic_phrases": [
+        "N R G m",
+        "m P D N S'",
+        "G m P D",
+        "N R G R S"
+      ],
+      "description": "One of the most important ragas in Hindustani classical music. Uses all seven notes with tivra (sharpened) Ma as the most characteristic note. Considered a raga of the evening with a calm, expansive character. The raised fourth (tivra Ma) immediately distinguishes it from related ragas."
+    },
+    {
+      "id": "bhairav",
+      "name": "Bhairav",
+      "thaat": "Bhairav",
+      "aroha": "S r G M P d N S'",
+      "avroha": "S' N d P M G r S",
+      "vadi": "d (komal Dha)",
+      "samvadi": "r (komal Re)",
+      "time_of_day": "Early morning (Brahma muhurta, approx. 4 AM – 6 AM)",
+      "characteristic_phrases": [
+        "S r G M",
+        "P d P M G r",
+        "d N d P",
+        "r S N' d' S"
+      ],
+      "description": "A morning raga of great antiquity and gravitas. Uses komal (flattened) Re and Dha, giving it a deeply introspective and devotional quality. The name is associated with Lord Shiva. Its characteristic slow, meditative movements make it one of the most revered ragas for early morning performance."
+    },
+    {
+      "id": "bhairavi",
+      "name": "Bhairavi",
+      "thaat": "Bhairavi",
+      "aroha": "S r g M P d n S'",
+      "avroha": "S' n d P M g r S",
+      "vadi": "M (Ma)",
+      "samvadi": "S (Sa)",
+      "time_of_day": "Morning; traditionally the closing raga of a concert",
+      "characteristic_phrases": [
+        "S r g M P",
+        "P d n S'",
+        "S' n d P M g r S",
+        "g M P d n d P"
+      ],
+      "description": "Uses all five komal (flattened) swaras: Re, Ga, Dha, Ni, with shuddha Ma and Pa. Despite its modal heaviness, it conveys both pathos and devotion. It is traditionally performed as the last piece of a concert. In practice, additional notes are sometimes used for expressiveness, making it one of the more flexible ragas."
+    },
+    {
+      "id": "malkauns",
+      "name": "Malkauns",
+      "thaat": "Bhairavi",
+      "aroha": "S g M d n S'",
+      "avroha": "S' n d M g S",
+      "vadi": "M (Ma)",
+      "samvadi": "S (Sa)",
+      "time_of_day": "Late night (midnight, approx. 12 AM – 3 AM)",
+      "characteristic_phrases": [
+        "S g M",
+        "M d n S'",
+        "S' n d M g",
+        "g M d g S"
+      ],
+      "description": "A pentatonic raga (no Re or Pa) using komal Ga, Dha, and Ni. The absence of Pa and the prominent use of all three komal notes gives it a dark, mysterious, and meditative quality. It is considered one of the most powerful ragas in the Hindustani tradition and is associated with late-night performance."
+    },
+    {
+      "id": "bhupali",
+      "name": "Bhupali",
+      "thaat": "Kalyan",
+      "aroha": "S R G P D S'",
+      "avroha": "S' D P G R S",
+      "vadi": "G (Ga)",
+      "samvadi": "D (Dha)",
+      "time_of_day": "Early evening (approx. 6 PM – 9 PM)",
+      "characteristic_phrases": [
+        "S R G P",
+        "P D S'",
+        "S' D P G R",
+        "G P D P G"
+      ],
+      "description": "A pentatonic raga (no Ma or Ni) from the Kalyan thaat. Despite its simple structure (only 5 notes), it has great scope for melodic development. Its notes are all shuddha (natural), giving it a serene, pleasant character. It is easily accessible and often used for devotional and light classical compositions."
+    },
+    {
+      "id": "darbari_kanada",
+      "name": "Darbari Kanada",
+      "thaat": "Asavari",
+      "aroha": "S R g M P d n S'",
+      "avroha": "S' n d P M g r S",
+      "vadi": "r (komal Re)",
+      "samvadi": "P (Pa)",
+      "time_of_day": "Late night (approx. 9 PM – midnight)",
+      "characteristic_phrases": [
+        "S R g M P",
+        "P d n d P",
+        "M g r S",
+        "n d P M g r"
+      ],
+      "description": "One of the grandest and most elaborate ragas in Hindustani music, traditionally attributed to Miyan Tansen (court musician of Emperor Akbar). Uses komal Ga, Dha, and Ni. Its most characteristic feature is the slow, oscillating meend (glide) on the komal Ga and the distinctive movement around komal Dha. Requires considerable expertise to render correctly."
+    },
+    {
+      "id": "bageshree",
+      "name": "Bageshree",
+      "thaat": "Kafi",
+      "aroha": "S g M D n S'",
+      "avroha": "S' n D M g R S",
+      "vadi": "M (Ma)",
+      "samvadi": "S (Sa)",
+      "time_of_day": "Late night (after midnight)",
+      "characteristic_phrases": [
+        "S g M",
+        "M D n S'",
+        "n D M g",
+        "g M D n S'"
+      ],
+      "description": "A raga of the Kafi thaat, using komal Ga and Ni. It omits Re in the ascent, giving the ascent a characteristic pentatonic quality. It is associated with themes of longing and separation (viraha). The combination of komal notes and the characteristic avoidance of Re in the aroha gives it a unique, slightly plaintive colour."
+    },
+    {
+      "id": "asavari",
+      "name": "Asavari",
+      "thaat": "Asavari",
+      "aroha": "S R M P D S'",
+      "avroha": "S' n d P M g R S",
+      "vadi": "d (komal Dha)",
+      "samvadi": "g (komal Ga)",
+      "time_of_day": "Morning (approx. 6 AM – 9 AM)",
+      "characteristic_phrases": [
+        "S R M P",
+        "P d P M",
+        "M g R S",
+        "n d P M g R"
+      ],
+      "description": "Uses different notes in ascent and descent (vakra/crooked movement). The ascent uses shuddha Dha while the descent uses komal Ga, Dha, and Ni. This asymmetry is a key identifying feature. It has a serious, slightly melancholic character and is traditionally an early morning raga."
+    }
+  ]
+}

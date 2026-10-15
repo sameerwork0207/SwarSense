@@ -1,0 +1,100 @@
+# ─── Python ───────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+.eggs/
+wheels/
+*.whl
+.installed.cfg
+MANIFEST
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ─── Testing / Coverage ───────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+*.coveragerc
+.tox/
+.nox/
+nosetests.xml
+
+# ─── Jupyter ──────────────────────────────────────────────────────────────────
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+profile_default/
+ipython_config.py
+
+# ─── ML / Model Artifacts ─────────────────────────────────────────────────────
+# Keep directory structure, ignore large binary files
+models/raga/*.pt
+models/raga/*.pth
+models/raga/*.onnx
+models/raga/*.pkl
+models/instrument/*.pt
+models/instrument/*.pth
+models/instrument/*.onnx
+models/instrument/*.pkl
+
+# ─── Audio / Data Uploads ─────────────────────────────────────────────────────
+data/uploads/*
+!data/uploads/.gitkeep
+ml/datasets/audio/
+*.mp3
+*.wav
+*.flac
+*.ogg
+*.m4a
+
+# ─── Environment / Secrets ────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+*.secret
+
+# ─── Node / Next.js ───────────────────────────────────────────────────────────
+node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/.pnp
+frontend/.pnp.js
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+*.tsbuildinfo
+frontend/next-env.d.ts
+
+# ─── Docker ───────────────────────────────────────────────────────────────────
+# No Docker secrets should be committed
+
+# ─── IDE / OS ─────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── Logs ─────────────────────────────────────────────────────────────────────
+logs/
+*.log
+*.log.*
+
+# ─── Misc ─────────────────────────────────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/

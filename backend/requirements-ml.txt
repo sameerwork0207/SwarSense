@@ -1,0 +1,47 @@
+# ─── SwarSense ML/Training Requirements ──────────────────────────────────────
+# Install these in your research/training environment ONLY.
+# Do NOT include in the production backend Docker image.
+#
+# Install: pip install -r requirements-ml.txt
+# (After installing requirements.txt first)
+
+# ─── Inherit base requirements ────────────────────────────────────────────────
+-r requirements.txt
+
+# ─── Jupyter (for notebooks) ──────────────────────────────────────────────────
+jupyterlab==4.2.4
+ipykernel==6.29.5
+
+# ─── Data Manipulation ────────────────────────────────────────────────────────
+pandas==2.2.2
+
+# ─── Visualization (extended for notebooks) ───────────────────────────────────
+seaborn==0.13.2
+plotly==5.23.0
+
+# ─── Model Explainability ─────────────────────────────────────────────────────
+captum==0.7.0                   # Grad-CAM for PyTorch models
+shap==0.45.1                    # SHAP for scikit-learn baseline
+
+# ─── Data Augmentation ────────────────────────────────────────────────────────
+torch-audiomentations==0.11.0   # Audio augmentation for CNN training
+
+# ─── Dataset Loading ──────────────────────────────────────────────────────────
+mirdata==0.3.8                  # Loader for CompMusic/Saraga datasets
+
+# ─── Evaluation ───────────────────────────────────────────────────────────────
+# scikit-learn already included in base requirements
+
+# ─── Experiment Tracking (optional — uncomment if using) ──────────────────────
+# mlflow==2.14.3
+# wandb==0.17.5
+
+# ─── Source Separation (large — only install when using Demucs) ───────────────
+# demucs==4.0.1
+# Note: Demucs pulls in heavy dependencies. Install separately:
+# pip install demucs
+
+# ─── Instrument Detection ─────────────────────────────────────────────────────
+# tensorflow==2.16.1            # Required for YAMNet via TF Hub
+# tensorflow-hub==0.16.1
+# Note: TensorFlow is large (~600MB). Install separately when implementing Phase 3.
